@@ -3,6 +3,7 @@ import argparse
 import pyautogui as mouse
 import time
 from timeit import default_timer as timer
+from datetime import datetime
 
 
 def autoclicker(
@@ -25,7 +26,9 @@ def autoclicker(
     # 10,000 => 5 minutes
     for i in range(60000):
         if not (i % sleep_time) and i:
-            print("Sleeping Now. Elapsed Time: ", timer() - start_time)
+            now = datetime.now().strftime("%H:%M:%S")
+            print('Taking Break. Time: ', now)
+            print("Elapsed Time: ", (timer() - start_time)//60)
             time.sleep(30)  # sleep for 30 seconds
         if timer() - start_time > (60 * duration):
             break
