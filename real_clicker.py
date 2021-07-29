@@ -4,14 +4,16 @@ import pyautogui as mouse
 import time
 from timeit import default_timer as timer
 from datetime import datetime
+import pytz
+
+tz_NY = pytz.timezone("America/New_York")
 
 
 def autoclicker(
     duration, mouse_movement=25, camera_movement=100, sleep_time=500, start_time=timer()
 ):
-    print("Start Time:", start_time)
+    print("Start Time:", datetime.now(tz_NY).strftime("%I:%M:%S"))
     start_x, start_y = mouse.position()
-    print(start_x, start_y)
 
     potential_cam_moves = ["left", "right", "up", "down"]
     j = k = 0
@@ -26,10 +28,11 @@ def autoclicker(
     # 10,000 => 5 minutes
     for i in range(60000):
         if not (i % sleep_time) and i:
-            now = datetime.now().strftime("%H:%M:%S")
-            print('Taking Break. Time: ', now)
-            print("Elapsed Time: ", (timer() - start_time)//60)
-            time.sleep(30)  # sleep for 30 seconds
+            print("Taking Break. Time: ", datetime.now(tz_NY).strftime("%I:%M:%S"))
+            print("Elapsed Time: ", (timer() - start_time) // 60)
+            sleep_time = np.random.randint(30, 60)
+            print(sleep_time)
+            time.sleep(sleep_time)  # sleep for random time
         if timer() - start_time > (60 * duration):
             break
         interval = np.random.uniform(0.1, 0.8)
@@ -51,7 +54,7 @@ def autoclicker(
     mouse.click(logout_x, logout_y - 55, duration=1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process n.")
     parser.add_argument("--n", type=int, help="set n minutes to go for")
     duration = parser.parse_args().n
