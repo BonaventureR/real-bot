@@ -10,7 +10,7 @@ tz_NY = pytz.timezone("America/New_York")
 
 
 def autoclicker(
-    duration, mouse_movement=25, camera_movement=100, sleep_time=500, start_time=timer()
+    duration, mouse_movement=25, camera_movement=100, sleep_time=2000, start_time=timer()
 ):
     print("Start Time:", datetime.now(tz_NY).strftime("%I:%M:%S"))
     start_x, start_y = mouse.position()
@@ -28,11 +28,8 @@ def autoclicker(
     # 10,000 => 5 minutes
     for i in range(60000):
         if not (i % sleep_time) and i:
-            print("Taking Break. Time: ", datetime.now(tz_NY).strftime("%I:%M:%S"))
-            print("Elapsed Time: ", (timer() - start_time) // 60)
-            sleep_time = np.random.randint(30, 60)
-            print(sleep_time)
-            time.sleep(sleep_time)  # sleep for random time
+            s = "Taking Break. Time:{} \t Elapsed Time:{} minutes".format(datetime.now(tz_NY).strftime("%I:%M:%S"), (timer() - start_time) // 60)
+            time.sleep(np.random.randint(15, 60))  # sleep for random time
         if timer() - start_time > (60 * duration):
             break
         interval = np.random.uniform(0.1, 0.8)
@@ -47,6 +44,7 @@ def autoclicker(
             mouse.press(sample, presses=np.random.randint(25, 100))
             j += 1
 
+    print("End Time", datetime.now(tz_NY).strftime("%I:%M:%S"))
     time.sleep(15)
     # log out
     logout_x, logout_y = start_x - 70, start_y + 175
